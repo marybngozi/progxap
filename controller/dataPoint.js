@@ -8,9 +8,6 @@ const con = mysql.createConnection({
   database: "progxap"
 });
 
-const objToArray = (obj) => {
-
-}
 
 module.exports = {
   dataParser: function (req, res) {
@@ -38,7 +35,6 @@ module.exports = {
         values.push(Object.values({surname, name, othernames, state, amount, charge_on_amount, datePosted, email_address, phoneNumber, identity}));
       }
 
-      // console.log(values);
       if (values.length > 0) {
         con.query(sql, [values], (err, result) => {
           if (err) console.log(err);
