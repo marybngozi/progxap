@@ -18,7 +18,7 @@ module.exports = {
     let passedData = [];
 
     for(let data of req.body) {
-      console.log(data);
+      // console.log(data);
       let {surname, name, othernames, state, amount, charge_on_amount, datePosted, email_address, phoneNumber, identity} = data;
       if (v.isStrValid(surname) && v.isStrValid(name) && v.isStrValid(othernames) && v.isStrValid(state) && v.isAmountValid(amount) && v.isAmountValid(charge_on_amount) && v.isDateValid(datePosted) && v.isEmailValid(email_address) && v.isPhoneValid(phoneNumber) && v.isIdentityValid(identity)) {
         passedData.push(data);
@@ -28,7 +28,7 @@ module.exports = {
     }
 
     con.connect(function(err) {
-      if (err) throw err;
+      if (err) console.log(err);
       console.log("Connected!");
       let sql = "INSERT INTO `user_data` (surname, name, othernames, state, amount, charge_on_amount, datePosted, email_address, phoneNumber, identity) VALUES ?";
       let values = [];
@@ -38,17 +38,17 @@ module.exports = {
         values.push(Object.values({surname, name, othernames, state, amount, charge_on_amount, datePosted, email_address, phoneNumber, identity}));
       }
 
-      // let values = [
-      //   ['John', 'Highway 71'],
-      //   ['Peter', 'Lowstreet 4'],
-      //   ['Amy', 'Apple st 652']
-      // ];
-      // con.query(sql, [values], function (err, result) {
-      //   if (err) throw err;
-      //   console.log("Number of records inserted: " + result.affectedRows);
-      // });
+      // console.log(values);
+      if (values.length > 0) {
+        con.query(sql, [values], (err, result) => {
+          if (err) console.log(err);
+          console.log("Number of records inserted: " + result.affectedRows);
+        });
+      }else{
+        console.log("No valid record to insert");
+        console.log("Number of records inserted: 0");
+      }
 
-      console.log(values);
     });
 
 
